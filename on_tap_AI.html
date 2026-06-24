@@ -12,6 +12,9 @@ h1{text-align:center;margin:20px 0;font-size:2em;color:#1a1a2e}
 .tab{padding:18px 30px;border:none;border-radius:14px;cursor:pointer;font-weight:700;font-size:1.15em;background:#e0e0e0;transition:.2s;text-align:center}
 .tab:hover{background:#ccc;transform:scale(1.02)}
 .tab.active{background:#1a1a2e;color:#fff}
+.mock-btn{background:#fff3e0;color:#e65100;border:2px solid #ff9800}
+.mock-btn:hover{background:#ffe0b2;border-color:#f57c00}
+.mock-btn.active{background:#e65100 !important;color:#fff !important;border-color:#bf360c}
 .sub-tabs{display:none;flex-direction:row;gap:10px;justify-content:center;margin-bottom:24px}
 .sub-tabs.show{display:flex}
 .sub-tab{padding:12px 24px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:.95em;background:#e8eaf6;transition:.2s}
@@ -55,9 +58,10 @@ h1{text-align:center;margin:20px 0;font-size:2em;color:#1a1a2e}
 .mode-btn{padding:8px 20px;border:2px solid #ccc;border-radius:20px;cursor:pointer;background:#fff;transition:.2s;font-size:.9em;font-weight:600;color:#555}
 .mode-btn:hover{border-color:#4a6cf7}
 .mode-btn.active{background:#4a6cf7;color:#fff;border-color:#4a6cf7}
-.submit-btn{display:none;margin:10px auto 24px;padding:14px 40px;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:1.1em;background:#28a745;color:#fff;transition:.2s}
-.submit-btn:hover{background:#218838;transform:scale(1.04)}
+.submit-btn{display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:999;padding:14px 40px;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:1.1em;background:#28a745;color:#fff;transition:.2s;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.submit-btn:hover{background:#218838}
 .submit-btn.show{display:block}
+body{padding-bottom:100px}
 .result-bar{display:none;text-align:center;padding:16px;border-radius:12px;margin-bottom:20px;font-size:1.1em;font-weight:600}
 .result-bar.show{display:block}
 .result-bar.pass{background:#d4edda;color:#155724}
@@ -73,6 +77,8 @@ h1{text-align:center;margin:20px 0;font-size:2em;color:#1a1a2e}
 <div class="tabs" id="tabs">
   <button class="tab" data-tab="ai">🤖 Đề thi cuối kỳ AI</button>
   <button class="tab" data-tab="ktlt">💻 Đề thi cuối kỳ KTLT</button>
+  <button class="tab mock-btn" data-tab="mock_ai">🧪 Thi thử AI (40 câu)</button>
+  <button class="tab mock-btn" data-tab="mock_ktlt">🧪 Thi thử KTLT (40 câu)</button>
 </div>
 <div class="sub-tabs" id="subTabs">
   <button class="sub-tab" data-sub="ky20241">📄 Kỳ 20241 (AI)</button>
@@ -818,6 +824,19 @@ function renderQuestions(ky) {
     return;
   }
 
+  if (ky === 'mock_ai' || ky === 'mock_ktlt') {
+    const display = shuffleCache[ky];
+    if (!display || display.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:#888;font-size:1.1em">Không có câu hỏi.</p>';
+      document.getElementById('stats').textContent = '0 câu hỏi';
+      return;
+    }
+    modeToggle.classList.remove('show');
+    submitBtn.classList.add('show');
+    renderExam(display);
+    return;
+  }
+
   const filtered = questions.filter(q => q.ky === ky);
   
   if (filtered.length === 0) {
@@ -939,16 +958,27 @@ function examSelect(qid, idx) {
   if (examSubmitted) return;
   examAnswers[qid] = idx;
   const activeSub = document.querySelector('.sub-tab.active');
-  if (activeSub) renderQuestions(activeSub.dataset.sub);
+  if (activeSub) {
+    renderQuestions(activeSub.dataset.sub);
+  } else {
+    const activeMock = document.querySelector('.tab.mock-btn.active');
+    if (activeMock) renderQuestions(activeMock.dataset.tab);
+  }
 }
 
 function submitExam() {
   if (examSubmitted) return;
   examSubmitted = true;
 
-  const activeSub = document.querySelector('.sub-tab.active');
-  if (!activeSub) return;
-  const ky = activeSub.dataset.sub;
+  let activeSub = document.querySelector('.sub-tab.active');
+  let ky;
+  if (activeSub) {
+    ky = activeSub.dataset.sub;
+  } else {
+    const activeMock = document.querySelector('.tab.mock-btn.active');
+    if (!activeMock) return;
+    ky = activeMock.dataset.tab;
+  }
   const display = shuffleCache[ky];
   if (!display) return;
   const container = document.getElementById('questions-container');
@@ -1031,6 +1061,28 @@ document.querySelectorAll('.sub-tab').forEach(sub => {
     this.classList.add('active');
     resetAnswers();
     renderQuestions(this.dataset.sub);
+  });
+});
+
+document.querySelectorAll('.mock-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    resetAnswers();
+    document.getElementById('subTabs').classList.remove('show');
+    document.getElementById('modeToggle').classList.remove('show');
+    document.getElementById('submitBtn').classList.remove('show');
+
+    const isAI = this.dataset.tab === 'mock_ai';
+    const kyPrefixes = isAI
+      ? ['ky20241', 'ky20221']
+      : ['ktlt_on', 'ktlt_20221', 'ktlt_vuong', 'ktlt_20212', 'ktlt_20211', 'ktlt_on32', 'ktlt_on31'];
+    const pool = questions.filter(q => kyPrefixes.includes(q.ky));
+    const shuffledPool = shuffleArray(pool);
+    const selected = shuffledPool.slice(0, 40);
+
+    shuffleCache[this.dataset.tab] = shuffleQuestions(selected);
+    renderQuestions(this.dataset.tab);
   });
 });
 
