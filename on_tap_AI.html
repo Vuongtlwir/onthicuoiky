@@ -70,6 +70,51 @@ body{padding-bottom:100px}
 .question pre{background:#f5f5f5;padding:12px;border-radius:6px;overflow-x:auto;font-size:.9em;border:1px solid #ddd;margin:8px 0;line-height:1.5}
 .question code{font-family:'Consolas','Courier New',monospace}
 
+.theory-section{max-width:960px;margin:0 auto}
+.theory-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;justify-content:center}
+.theory-nav-btn{padding:10px 20px;border:2px solid #ddd;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9em;background:#fff;transition:.2s;color:#555}
+.theory-nav-btn:hover{border-color:#4a6cf7;color:#4a6cf7}
+.theory-nav-btn.active{background:#4a6cf7;color:#fff;border-color:#4a6cf7}
+.theory-content{display:none}
+.theory-content.active{display:block}
+
+.theory-card{background:#fff;border-radius:8px;padding:36px 44px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.12);font-size:.95em;line-height:1.65;color:#222;font-family:'Segoe UI','Georgia',serif}
+.theory-card h2{font-size:1.35em;color:#1a1a2e;margin:32px 0 14px;padding-bottom:6px;border-bottom:2px solid #4a6cf7;font-weight:700;letter-spacing:.3px}
+.theory-card h3{font-size:1.1em;color:#2c3e50;margin:22px 0 10px;font-weight:700}
+.theory-card h4{font-size:1em;color:#4a6cf7;margin:16px 0 8px;font-weight:600}
+.theory-card p{margin:5px 0;text-align:justify}
+.theory-card ul{list-style:none;padding:0;margin:4px 0}
+
+.theory-card > ul > li{padding:3px 0 3px 22px;position:relative;line-height:1.6}
+.theory-card > ul > li::before{content:"▪";position:absolute;left:2px;color:#4a6cf7;font-weight:700}
+.theory-card ul ul{padding-left:18px;margin:2px 0}
+.theory-card ul ul li{padding:2px 0 2px 18px;position:relative}
+.theory-card ul ul li::before{content:"•";position:absolute;left:0;color:#888}
+
+.theory-card .english-quote{font-style:italic;color:#555;padding:6px 16px 6px 28px;border-left:3px solid #ccc;margin:6px 0;font-size:.9em;background:#fafafa;border-radius:4px}
+.theory-card .english-quote p{margin:3px 0}
+.theory-card .figure{font-style:italic;color:#666;text-align:center;padding:8px 0;font-size:.9em;margin:10px 0 4px}
+.theory-card .source{color:#888;font-size:.84em;text-align:right;padding:2px 0;margin-bottom:6px}
+.theory-card .highlight-box{background:#f0f4ff;padding:12px 16px;border-radius:6px;border-left:4px solid #4a6cf7;margin:10px 0}
+
+.theory-card > p:first-of-type{margin-top:0}
+.theory-card .h2-muted{font-size:1.2em;color:#555;margin:24px 0 10px;padding-bottom:4px;border-bottom:1px solid #ddd;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.theory-card .toc-entry{color:#4a6cf7;padding-left:8px;margin:3px 0;font-weight:500}
+.theory-card .english-quote{font-style:italic;color:#555;padding:8px 16px 8px 28px;border-left:3px solid #bbb;margin:8px 0;background:#fafafa;border-radius:4px}
+.theory-card .english-quote p{margin:3px 0}
+.theory-card .arrow{color:#666;font-style:italic;padding-left:24px;margin:4px 0}
+
+.theory-pdf-section{border-top:1px solid #e0e0e0;margin-top:24px;padding-top:16px}
+.theory-pdf-section h4{font-size:.95em;color:#1a1a2e;margin-bottom:10px}
+.theory-pdf-list{display:flex;flex-wrap:wrap;gap:6px}
+.theory-pdf-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#f5f5f5;border-radius:6px;text-decoration:none;font-size:.82em;color:#4a6cf7;border:1px solid #e0e0e0;transition:.15s}
+.theory-pdf-link:hover{background:#eef1ff;border-color:#4a6cf7;transform:translateY(-1px)}
+
+@media(max-width:600px){
+  .theory-pdf-link{font-size:.78em;padding:5px 10px}
+  .theory-pdf-section{margin-top:16px}
+}
+
 .timer-bar{display:none;text-align:center;padding:10px;background:#1a1a2e;color:#fff;border-radius:10px;margin-bottom:16px;font-size:1.1em;font-weight:700;position:sticky;top:10px;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2)}
 .timer-bar.show{display:block}
 .timer-bar.warning{background:#e65100}
@@ -111,24 +156,12 @@ body{padding-bottom:100px}
   .confirm-modal{padding:24px 20px}
   .confirm-modal h3{font-size:1.1em}
   .confirm-btn{padding:10px 20px;font-size:.9em}
-}
-  body{padding:12px}
-  h1{font-size:1.3em;margin:12px 0}
-  .tabs{gap:10px}
-  .tab{padding:14px 16px;font-size:1em}
-  .sub-tabs{flex-wrap:wrap;gap:6px}
-  .sub-tab{padding:10px 14px;font-size:.82em}
-  .question{padding:14px;border-radius:10px;margin-bottom:14px}
-  .question h3{font-size:.95em;padding-left:10px}
-  .option{padding:12px 12px;gap:8px;font-size:.9em}
-  .option input[type="radio"]{transform:scale(1.3);min-width:20px}
-  .explanation{padding:12px;font-size:.88em}
-  .stats{font-size:.82em}
-  .submit-btn{width:calc(100% - 40px);padding:14px 20px;font-size:1em;bottom:20px}
-  .result-bar{font-size:.95em;padding:14px}
-  .mode-btn{padding:8px 14px;font-size:.82em}
-  .question pre{font-size:.82em;padding:10px}
-  .ky-badge{font-size:.75em;padding:2px 8px}
+  .theory-card{padding:16px}
+  .theory-card h2{font-size:1.05em}
+  .theory-card h3{font-size:.95em}
+  .theory-card h4{font-size:.9em}
+  .theory-nav-btn{padding:8px 14px;font-size:.82em}
+  }
 
 </style>
 </head>
@@ -142,6 +175,7 @@ body{padding-bottom:100px}
   <button class="tab" data-tab="ktlt">💻 Đề thi cuối kỳ KTLT</button>
   <button class="tab mock-btn" data-tab="mock_ai">🧪 Thi thử AI (40 câu)</button>
   <button class="tab mock-btn" data-tab="mock_ktlt">🧪 Thi thử KTLT (40 câu)</button>
+  <button class="tab" data-tab="theory_ai">📖 Lý thuyết AI</button>
 </div>
 <div class="sub-tabs" id="subTabs">
   <button class="sub-tab" data-sub="ky20241">📄 Kỳ 20241 (AI)</button>
@@ -181,6 +215,8 @@ body{padding-bottom:100px}
 <script src="ktlt/ktlt_questions.js"></script>
 <script src="ktlt/ktltExtraQuestions.js"></script>
 <script src="ktlt/ktltEssay.js"></script>
+<script src="theory/theory_data.js"></script>
+<script src="theory/theory_pdf_data.js"></script>
 <script>
 const questions = [...aiQuestions];
 // Merge KTLT questions
@@ -507,6 +543,12 @@ document.querySelectorAll('.tab').forEach(tab => {
         s.style.display = ['ktlt_on','ktlt_20221','ktlt_vuong','ktlt_20212','ktlt_20211','ktlt_on32','ktlt_on31','ktlt_essay'].includes(s.dataset.sub) ? 'none' : '';
       });
       renderQuestions(null);
+    } else if (this.dataset.tab === 'theory_ai') {
+      document.getElementById('subTabs').classList.remove('show');
+      document.getElementById('modeToggle').classList.remove('show');
+      document.getElementById('submitBtn').classList.remove('show');
+      document.getElementById('resultBar').className = 'result-bar';
+      renderTheory();
     } else {
       document.querySelectorAll('.sub-tab').forEach(s => {
         s.style.display = ['ktlt_on','ktlt_20221','ktlt_vuong','ktlt_20212','ktlt_20211','ktlt_on32','ktlt_on31','ktlt_essay'].includes(s.dataset.sub) ? '' : 'none';
@@ -629,6 +671,52 @@ function resetAnswers() {
   shuffleCache = {};
   examStarted = false;
   stopTimer();
+}
+
+function renderTheory() {
+  const container = document.getElementById('questions-container');
+  const modeToggle = document.getElementById('modeToggle');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultBar = document.getElementById('resultBar');
+
+  resultBar.classList.remove('show');
+  resultBar.className = 'result-bar';
+  submitBtn.classList.remove('show');
+  modeToggle.classList.remove('show');
+
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  let html = '<div class="theory-section">';
+  html += '<div class="theory-nav">';
+  theoryData.forEach((ch, idx) => {
+    html += `<button class="theory-nav-btn ${idx === 0 ? 'active' : ''}" onclick="showTheory(${idx})">${ch.title}</button>`;
+  });
+  html += '</div>';
+
+  theoryData.forEach((ch, idx) => {
+    let pdfHtml = '';
+    const pdfInfo = (typeof theoryPDFs !== 'undefined' && theoryPDFs.find(p => p.id === ch.id));
+    if (pdfInfo && pdfInfo.pdfs.length > 0) {
+      const links = pdfInfo.pdfs.map(p =>
+        `<a href="${p.path}" target="_blank" class="theory-pdf-link">📄 ${esc(p.name)}</a>`
+      ).join('');
+      pdfHtml = `<div class="theory-pdf-section"><h4>📄 Tài liệu tham khảo</h4><div class="theory-pdf-list">${links}</div></div>`;
+    }
+    html += `<div class="theory-content ${idx === 0 ? 'active' : ''}" id="theory-${ch.id}"><div class="theory-card">${pdfHtml}</div></div>`;
+  });
+
+  html += '</div>';
+  container.innerHTML = html;
+  document.getElementById('stats').textContent = '📖 Lý thuyết AI • 5 chương';
+}
+
+function showTheory(idx) {
+  document.querySelectorAll('.theory-nav-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.theory-content').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
 }
 
 renderQuestions(null);
