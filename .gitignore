@@ -33,7 +33,7 @@ Thumbs.db
 
 # Text files
 *.txt
-*.pdf
+
 # Jupyter Notebook
 .ipynb_checkpoints/
 
