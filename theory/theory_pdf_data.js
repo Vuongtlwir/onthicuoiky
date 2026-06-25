@@ -1,7 +1,8 @@
-// Auto-generated PDF file list for theory chapters
-const theoryPDFs = [
+// Auto-generated theory chapter data
+const theoryData = [
   {
     "id": "ch1",
+    "title": "Chương 1: Giới thiệu về Trí tuệ nhân tạo",
     "pdfs": [
       {
         "name": "0102_AI_definition",
@@ -19,6 +20,7 @@ const theoryPDFs = [
   },
   {
     "id": "ch2",
+    "title": "Chương 2: Tác tử thông minh",
     "pdfs": [
       {
         "name": "0201_Agent_concept",
@@ -40,6 +42,7 @@ const theoryPDFs = [
   },
   {
     "id": "ch3",
+    "title": "Chương 3: Giải quyết vấn đề",
     "pdfs": [
       {
         "name": "0301_PS_by_searching",
@@ -125,6 +128,7 @@ const theoryPDFs = [
   },
   {
     "id": "ch4",
+    "title": "Chương 4: Tri thức và suy diễn",
     "pdfs": [
       {
         "name": "0401_KM_introduction",
@@ -194,6 +198,7 @@ const theoryPDFs = [
   },
   {
     "id": "ch5",
+    "title": "Chương 5: Học máy",
     "pdfs": [
       {
         "name": "0501_MLintro",

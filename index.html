@@ -215,7 +215,6 @@ body{padding-bottom:100px}
 <script src="ktlt/ktlt_questions.js"></script>
 <script src="ktlt/ktltExtraQuestions.js"></script>
 <script src="ktlt/ktltEssay.js"></script>
-<script src="theory/theory_data.js"></script>
 <script src="theory/theory_pdf_data.js"></script>
 <script>
 const questions = [...aiQuestions];
@@ -695,9 +694,8 @@ function renderTheory() {
 
   theoryData.forEach((ch, idx) => {
     let pdfHtml = '';
-    const pdfInfo = (typeof theoryPDFs !== 'undefined' && theoryPDFs.find(p => p.id === ch.id));
-    if (pdfInfo && pdfInfo.pdfs.length > 0) {
-      const links = pdfInfo.pdfs.map(p =>
+    if (ch.pdfs && ch.pdfs.length > 0) {
+      const links = ch.pdfs.map(p =>
         `<a href="${p.path}" target="_blank" class="theory-pdf-link">📄 ${esc(p.name)}</a>`
       ).join('');
       pdfHtml = `<div class="theory-pdf-section"><h4>📄 Tài liệu tham khảo</h4><div class="theory-pdf-list">${links}</div></div>`;

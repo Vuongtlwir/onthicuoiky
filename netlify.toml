@@ -3,5 +3,5 @@
 
 [[redirects]]
   from = "/"
-  to = "/on_tap_AI.html"
+  to = "/index.html"
   status = 200
