@@ -70,6 +70,25 @@ body{padding-bottom:100px}
 .question pre{background:#f5f5f5;padding:12px;border-radius:6px;overflow-x:auto;font-size:.9em;border:1px solid #ddd;margin:8px 0;line-height:1.5}
 .question code{font-family:'Consolas','Courier New',monospace}
 
+.timer-bar{display:none;text-align:center;padding:10px;background:#1a1a2e;color:#fff;border-radius:10px;margin-bottom:16px;font-size:1.1em;font-weight:700;position:sticky;top:10px;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.timer-bar.show{display:block}
+.timer-bar.warning{background:#e65100}
+.timer-bar.danger{background:#c62828;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.7}}
+
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.confirm-overlay.show{display:flex}
+.confirm-modal{background:#fff;border-radius:16px;padding:32px;max-width:380px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.25)}
+.confirm-modal h3{font-size:1.3em;margin-bottom:12px;color:#1a1a2e}
+.confirm-modal p{font-size:.95em;color:#555;margin-bottom:8px;line-height:1.5}
+.confirm-modal .confirm-info{background:#f8f9fa;padding:12px;border-radius:8px;margin:12px 0;font-size:.9em;color:#333}
+.confirm-buttons{display:flex;gap:12px;justify-content:center;margin-top:20px}
+.confirm-btn{padding:12px 28px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:1em;transition:.2s}
+.confirm-btn.cancel{background:#e0e0e0;color:#555}
+.confirm-btn.cancel:hover{background:#ccc}
+.confirm-btn.ok{background:#1a1a2e;color:#fff}
+.confirm-btn.ok:hover{background:#2a2a4e}
+
 @media(max-width:600px){
   body{padding:12px}
   h1{font-size:1.3em;margin:12px 0}
@@ -88,7 +107,29 @@ body{padding-bottom:100px}
   .mode-btn{padding:8px 14px;font-size:.82em}
   .question pre{font-size:.82em;padding:10px}
   .ky-badge{font-size:.75em;padding:2px 8px}
+  .timer-bar{font-size:.95em;padding:8px;margin-bottom:12px}
+  .confirm-modal{padding:24px 20px}
+  .confirm-modal h3{font-size:1.1em}
+  .confirm-btn{padding:10px 20px;font-size:.9em}
 }
+  body{padding:12px}
+  h1{font-size:1.3em;margin:12px 0}
+  .tabs{gap:10px}
+  .tab{padding:14px 16px;font-size:1em}
+  .sub-tabs{flex-wrap:wrap;gap:6px}
+  .sub-tab{padding:10px 14px;font-size:.82em}
+  .question{padding:14px;border-radius:10px;margin-bottom:14px}
+  .question h3{font-size:.95em;padding-left:10px}
+  .option{padding:12px 12px;gap:8px;font-size:.9em}
+  .option input[type="radio"]{transform:scale(1.3);min-width:20px}
+  .explanation{padding:12px;font-size:.88em}
+  .stats{font-size:.82em}
+  .submit-btn{width:calc(100% - 40px);padding:14px 20px;font-size:1em;bottom:20px}
+  .result-bar{font-size:.95em;padding:14px}
+  .mode-btn{padding:8px 14px;font-size:.82em}
+  .question pre{font-size:.82em;padding:10px}
+  .ky-badge{font-size:.75em;padding:2px 8px}
+
 </style>
 </head>
 <body>
@@ -119,9 +160,22 @@ body{padding-bottom:100px}
   <button class="mode-btn active" data-mode="practice">Ôn tập</button>
   <button class="mode-btn" data-mode="exam">📝 Làm đề</button>
 </div>
+<div id="timerBar" class="timer-bar">⏱ <span id="timerDisplay">60:00</span></div>
 <div id="resultBar" class="result-bar"></div>
 <button class="submit-btn" id="submitBtn">📤 Nộp bài</button>
 <div id="questions-container"></div>
+
+<div id="confirmOverlay" class="confirm-overlay">
+  <div class="confirm-modal">
+    <h3>🧪 Thi thử</h3>
+    <p>Bạn có chắc chắn muốn bắt đầu làm bài?</p>
+    <p class="confirm-info">⏱ Thời gian: <strong>60 phút</strong><br>📋 Số câu: <strong>40 câu</strong></p>
+    <div class="confirm-buttons">
+      <button class="confirm-btn cancel" id="confirmCancel">Hủy</button>
+      <button class="confirm-btn ok" id="confirmOk">Bắt đầu</button>
+    </div>
+  </div>
+</div>
 
 <script src="AI/ai_questions.js"></script>
 <script src="ktlt/ktlt_questions.js"></script>
@@ -139,6 +193,9 @@ let examAnswers = {};
 let examSubmitted = false;
 let examMode = false;
 let shuffleCache = {};
+let timerInterval = null;
+let timeLeft = 3600;
+let examStarted = false;
 
 function shuffleArray(arr) {
   const a = [...arr];
@@ -372,6 +429,8 @@ function examSelect(qid, idx) {
 function submitExam() {
   if (examSubmitted) return;
   examSubmitted = true;
+  stopTimer();
+  examStarted = false;
 
   let activeSub = document.querySelector('.sub-tab.active');
   let ky;
@@ -476,10 +535,6 @@ document.querySelectorAll('.mock-btn').forEach(btn => {
     wrongAttempt = {};
     examAnswers = {};
     examSubmitted = false;
-    document.getElementById('subTabs').classList.remove('show');
-    document.getElementById('modeToggle').classList.remove('show');
-    document.getElementById('submitBtn').classList.remove('show');
-    document.getElementById('resultBar').className = 'result-bar';
 
     const isAI = this.dataset.tab === 'mock_ai';
     const kyPrefixes = isAI
@@ -490,9 +545,68 @@ document.querySelectorAll('.mock-btn').forEach(btn => {
     const picked = shuffledPool.slice(0, 40);
 
     shuffleCache[this.dataset.tab] = shuffleQuestionsOnly(picked);
-    renderQuestions(this.dataset.tab);
+    window._mockTab = this.dataset.tab;
+    document.getElementById('confirmOverlay').classList.add('show');
   });
 });
+
+document.getElementById('confirmCancel').addEventListener('click', function() {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+});
+
+document.getElementById('confirmOk').addEventListener('click', function() {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  startMockExam();
+});
+
+function startMockExam() {
+  const ky = window._mockTab;
+  if (!ky) return;
+  examStarted = true;
+  timeLeft = 3600;
+  document.getElementById('subTabs').classList.remove('show');
+  document.getElementById('modeToggle').classList.remove('show');
+  document.getElementById('submitBtn').classList.remove('show');
+  document.getElementById('resultBar').className = 'result-bar';
+  renderQuestions(ky);
+  startTimer();
+}
+
+function startTimer() {
+  const timerBar = document.getElementById('timerBar');
+  const timerDisplay = document.getElementById('timerDisplay');
+  timerBar.classList.add('show');
+  timerBar.classList.remove('warning', 'danger');
+  updateTimerDisplay();
+
+  timerInterval = setInterval(function() {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 300) timerBar.classList.add('warning');
+    if (timeLeft <= 60) { timerBar.classList.remove('warning'); timerBar.classList.add('danger'); }
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      submitExam();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  document.getElementById('timerDisplay').textContent =
+    String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  document.getElementById('timerBar').classList.remove('show');
+}
 
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', function() {
@@ -513,6 +627,8 @@ function resetAnswers() {
   examAnswers = {};
   examSubmitted = false;
   shuffleCache = {};
+  examStarted = false;
+  stopTimer();
 }
 
 renderQuestions(null);
