@@ -100,8 +100,8 @@ const ktltExtraQuestions = [
    "Lời gọi hàm trong C++ có thể có số đối số ít hơn so với số tham số trong định nghĩa hàm",
    "Hàm trong C/C++ chỉ có duy nhất 1 cách truyền tham số là truyền tham trị",
    "Trong C/C++ tên hàm phải là duy nhất"
- ],answer:0,
- explanation:"Đáp án A đúng: lời gọi hàm phải có số đối số tương ứng với tham số. B sai vì chỉ đúng khi có tham số mặc định. C sai vì C++ có truyền tham chiếu. D sai vì C++ có nạp chồng hàm. <b>Đáp án: A</b>"},
+ ],answer:1,
+ explanation:"Có tham số ngầm định nên lời gọi hàm có thể ít đối số hơn tham số.<br><b>Đáp án: B</b>"},
 
 {id:248, ky:"ktlt_20211", label:"Cuối kì 20211",
  text:"Kỹ thuật lính canh có thể áp dụng cho:",
@@ -234,9 +234,10 @@ const ktltExtraQuestions = [
    "Chương trình có lỗi, không có kết quả",
    "8, 16",
    "10, 15",
-   "7, 15"
- ],answer:0,
- explanation:"*p-- = a ^ b; gán giá trị a^b cho *p (a) rồi giảm p (p trỏ ra ngoài vùng nhớ). *p += 2; ghi vào vùng nhớ không hợp lệ, gây lỗi runtime. <b>Đáp án: A</b>"},
+   "7, 15",
+   "Không có đáp án nào đúng"
+ ],answer:4,
+ explanation:"*p-- = a ^ b; a = 10^15 = 5, sau đó p-- trỏ vào b (biến kề a trên stack, cũng là biến mà q trỏ tới). *p += 2; b = 15+2 = 17. Kết quả thực tế: 5, 17 (không có trong đáp án). Theo chuẩn C++ đây là undefined behavior, nhưng trên hầu hết compiler nó chạy ra 5, 17. <b>Đáp án: E</b>"},
 
 {id:261, ky:"ktlt_on32", label:"Tổng ôn 20232",
  text:"Cho biết kết quả sau khi chạy chương trình C++ sau:<br><pre><code>#include &lt;iostream&gt;<br>using namespace std;<br>int main() {<br>  char s[6]='xyz';<br>  char * const ptr2 = s;<br>  s[1] ='Y';<br>  *(ptr2+1)+=1;<br>  ptr2+=1;<br>  cout &lt;&lt; ptr2;<br>  return 0;<br>}</code></pre>",
@@ -323,8 +324,8 @@ const ktltExtraQuestions = [
    "Chương trình có lỗi",
    "1",
    "2"
- ],answer:2,
- explanation:"MAX(a++, b--) mở rộng: ((a++) &gt; (b--) ? (a++) : (b--)). So sánh a=0 vs b=1: 0&gt;1 sai, thực hiện b-- lần nữa = 0. Nhưng a++ đã làm a=1, b-- làm b=0. a++ trong điều kiện là 0. Kết quả c = b-- = 1 (giá trị b trước khi giảm lần 2). <b>Đáp án: C</b>"},
+ ],answer:0,
+ explanation:"MAX(a++, b--) mở rộng: ((a++) &gt; (b--) ? (a++) : (b--)). Điều kiện: a++=0 (a→1), b--=1 (b→0). 0&gt;1 sai. Nhánh else: b-- trả về 0 (b hiện tại là 0), b→-1. c = 0. <b>Đáp án: A</b>"},
 
 {id:270, ky:"ktlt_on32", label:"Tổng ôn 20232",
  text:"Cho biết kết quả sau khi chạy chương trình C++ sau:<br><pre><code>#include &lt;iostream&gt;<br>using namespace std;<br>int main() {<br>  int a=6, b=12;<br>  int *p = &amp;a, *q= &amp;b;<br>  ++a = ~a + ~b ;<br>  p--;<br>  *p-- = a + ~2;<br>  cout &lt;&lt; a &lt;&lt; ', ' &lt;&lt; b;<br>}</code></pre>",
@@ -613,8 +614,8 @@ const ktltExtraQuestions = [
    "||, !, ?:",
    "!, ||, ?:",
    "!, ?:, ||"
- ],answer:3,
- explanation:"Trong C/C++, thứ tự ưu tiên: ! (NOT) cao nhất, sau đó đến ?: (điều kiện), cuối cùng là || (OR). <b>Đáp án: D</b>"},
+ ],answer:2,
+ explanation:"Thứ tự ưu tiên từ cao đến thấp: ! (NOT), || (OR), ?: (điều kiện). <b>Đáp án: C</b>"},
 
 {id:287, ky:"ktlt_on31", label:"Tổng ôn 20231",
  text:"Cho khai báo: int M[][]={1,2,3}; Hãy lựa chọn kết luận đúng:",

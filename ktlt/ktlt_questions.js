@@ -2,15 +2,15 @@
 // Source: On tap (84 q), 20221 exam (20 q), Thay Vuong (57 q)
 // =====================================================
 const ktltQuestions = [
-  {id:77,ky:"ktlt_on",label:"Ôn tập KTLT",
-   text:"Chọn phát biểu ĐÚNG về hàm có tham số ngầm định trong C++",
-   options:[
-       "Khi hàm có tham số ngầm định có prototype, thì giá trị ngầm định trong định nghĩa hàm có ý nghĩa cao hơn giá trị định nghĩa trong prototype.",
-       "Khi đa năng hóa toán tử không được dùng tham số có giá trị ngầm định.",
-       "Tham số ngầm định của hàm có thể nằm ở vị trí bất kỳ trong hàm có danh sách tham số nhiều hơn các tham số ngầm định.",
-       "Tất cả các phát biểu trên đều sai."
-   ],answer:3,
-   explanation:"Cả 3 phát biểu đều sai. xem giải thích.<br><b>Đáp án: D</b> (suy luận từ đề 20221)"},
+   {id:77,ky:"ktlt_on",label:"Ôn tập KTLT",
+    text:"Chọn phát biểu ĐÚNG về hàm có tham số ngầm định trong C++",
+    options:[
+        "Khi hàm có tham số ngầm định có prototype, thì giá trị ngầm định trong định nghĩa hàm có ý nghĩa cao hơn giá trị định nghĩa trong prototype.",
+        "Khi đa năng hóa toán tử không được dùng tham số có giá trị ngầm định.",
+        "Tham số ngầm định của hàm có thể nằm ở vị trí bất kỳ trong hàm có danh sách tham số nhiều hơn các tham số ngầm định.",
+        "Tất cả các phát biểu trên đều sai."
+    ],answer:1,
+    explanation:"Khi đa năng hóa toán tử, không được dùng tham số có giá trị ngầm định.<br><b>Đáp án: B</b>"},
 
   {id:78,ky:"ktlt_on",label:"Ôn tập KTLT",
    text:"Trong những phát biểu sau đây về sử dụng các khoảng trắng trong phong cách lập trình, phát biểu nào ĐÚNG?",
@@ -630,15 +630,15 @@ const ktltQuestions = [
    ],answer:2,
    explanation:"Default param (a=10) không được đứng trước non-default param (b).<br><b>Đáp án: C</b> (unknown)"},
 
-  {id:139,ky:"ktlt_on",label:"Ôn tập KTLT",
-   text:"Trường hợp cơ sở (neo đệ quy) khi number?<br><pre><code>void superWriteVertical(int number){\n   if(number&lt;0){cout&lt;&lt;\"-\"; superWriteVertical(-number);}\n   else if(number&lt;10) cout&lt;&lt;number;\n   else{superWriteVertical(number/10);cout&lt;&lt;number%10;}\n}</code></pre>",
-   options:[
-       "number &lt; 0",
-       "number &lt; 10",
-       "number &gt; 10",
-       "number &gt;= 0 &amp;&amp; number &lt; 10"
-   ],answer:1,
-   explanation:"Base case: number &lt; 10 (in và dừng). Khi &lt;0 vẫn đệ quy.<br><b>Đáp án: B</b> (unknown)"},
+   {id:139,ky:"ktlt_on",label:"Ôn tập KTLT",
+    text:"Trường hợp cơ sở (neo đệ quy) khi number?<br><pre><code>void superWriteVertical(int number){\n   if(number&lt;0){cout&lt;&lt;\"-\"; superWriteVertical(-number);}\n   else if(number&lt;10) cout&lt;&lt;number;\n   else{superWriteVertical(number/10);cout&lt;&lt;number%10;}\n}</code></pre>",
+    options:[
+        "number &lt; 0",
+        "number &lt; 10",
+        "number &gt; 10",
+        "number &gt;= 0 &amp;&amp; number &lt; 10"
+    ],answer:3,
+    explanation:"Neo đệ quy khi number &gt;= 0 &amp;&amp; number &lt; 10 (không gọi đệ quy).<br><b>Đáp án: D</b>"},
 
   {id:140,ky:"ktlt_on",label:"Ôn tập KTLT",
    text:"Kết quả:<br><pre><code>int n=12; char str[50]=\"\";\nassert(n&gt;=10);\nprintf(\"output:%d\\n\",n);\nassert(str!=NULL);\nprintf(\"output:%s\\n\",str);</code></pre>",
@@ -811,15 +811,15 @@ const ktltQuestions = [
    ],answer:0,
    explanation:"C++ hỗ trợ cả pass-by-value và pass-by-reference.<br><b>Đáp án: A</b> (unknown)"},
 
-  {id:157,ky:"ktlt_on",label:"Ôn tập KTLT",
-   text:"Mảng matrix 10000x3 float. Chọn giải pháp tinh chỉnh TỐI ƯU NHẤT:<br><pre><code>// Gốc\nfor(int c=0;c&lt;3;c++)\n   for(int r=0;r&lt;10000;r++)\n      sum+=matrix[r][c];</code></pre>",
-   options:[
-       "float *p=&amp;matrix[0][0]; for(int i=0;i&lt;30000;i++) sum+=*(p+i);",
-       "for(int r=0;r&lt;10000;r++) for(int c=0;c&lt;3;c++) sum+=matrix[r][c];",
-       "Giữ nguyên (áp dụng 'đưa vòng lặp lớn vào trong')",
-       "sum=0.0; for(int i=0;i&lt;30000;i++) sum+=*(matrix+i);"
-   ],answer:0,
-   explanation:"Con trỏ flat truy cập tuần tự 30000 phần tử, tối ưu cache và loop overhead.<br><b>Đáp án: A</b> (unknown)"},
+   {id:157,ky:"ktlt_on",label:"Ôn tập KTLT",
+    text:"Mảng matrix 10000x3 float. Chọn giải pháp tinh chỉnh TỐI ƯU NHẤT:<br><pre><code>// Gốc\nfor(int c=0;c&lt;3;c++)\n   for(int r=0;r&lt;10000;r++)\n      sum+=matrix[r][c];</code></pre>",
+    options:[
+        "float *p=&amp;matrix[0][0]; for(int i=0;i&lt;30000;i++) sum+=*(p+i);",
+        "for(int r=0;r&lt;10000;r++) for(int c=0;c&lt;3;c++) sum+=matrix[r][c];",
+        "Giữ nguyên (áp dụng 'đưa vòng lặp lớn vào trong')",
+        "sum=0.0; for(int i=0;i&lt;30000;i++) sum+=*(matrix+i);"
+    ],answer:1,
+    explanation:"Đổi vòng lặp cho truy cập theo hàng (row-major), tận dụng bộ nhớ đệm cache.<br><b>Đáp án: B</b>"},
 
   {id:158,ky:"ktlt_on",label:"Ôn tập KTLT",
    text:"Tại sao không thể dùng xử lý ngoại lệ thay thế assert?",
@@ -914,15 +914,15 @@ const ktltQuestions2 = [
    ],answer:3,
    explanation:"\"Ngon Ngu \" = 8 ký tự, s+=8 → trỏ đến ' Lap Trinh C++'.<br><b>Đáp án: D</b> (đúng 0.30)"},
 
-  {id:167,ky:"ktlt_20221",label:"KTLT cuối kì 20221",
-   text:"Chọn phát biểu ĐÚNG về hàm có tham số ngầm định trong C++",
-   options:[
-       "Tất cả các phát biểu trên đều sai",
-       "Khi hàm có tham số ngầm định có prototype, thì giá trị ngầm định trong định nghĩa hàm có ý nghĩa cao hơn giá trị định nghĩa trong prototype.",
-       "Khi đa năng hóa toán tử không được dùng tham số có giá trị ngầm định",
-       "Tham số ngầm định của hàm có thể nằm ở vị trí bất kỳ trong hàm có danh sách tham số nhiều hơn các tham số ngầm định"
-   ],answer:0,
-   explanation:"Cả B, C, D đều sai. Default params phải ở cuối; overloaded operator CÓ thể dùng default; prototype default ưu tiên hơn.<br><b>Đáp án: A</b> (đúng 0.50)"},
+   {id:167,ky:"ktlt_20221",label:"KTLT cuối kì 20221",
+    text:"Chọn phát biểu ĐÚNG về hàm có tham số ngầm định trong C++",
+    options:[
+        "Tất cả các phát biểu trên đều sai",
+        "Khi hàm có tham số ngầm định có prototype, thì giá trị ngầm định trong định nghĩa hàm có ý nghĩa cao hơn giá trị định nghĩa trong prototype.",
+        "Khi đa năng hóa toán tử không được dùng tham số có giá trị ngầm định",
+        "Tham số ngầm định của hàm có thể nằm ở vị trí bất kỳ trong hàm có danh sách tham số nhiều hơn các tham số ngầm định"
+    ],answer:2,
+    explanation:"Khi đa năng hóa toán tử, không được dùng tham số có giá trị ngầm định.<br><b>Đáp án: C</b>"},
 
   {id:168,ky:"ktlt_20221",label:"KTLT cuối kì 20221",
    text:"Kết quả:<br><pre><code>int calc(int a,int b,int c=1){return a*b*c;}\nfloat calc(float a,float b,float c=1){return a/b/c;}\nint main(){\n   int x=5,y=1; float n=5.0,m=2.0;\n   cout&lt;&lt;calc(x,y,2)&lt;&lt;\"\\t\"&lt;&lt;calc(n,m);\n}</code></pre>",
