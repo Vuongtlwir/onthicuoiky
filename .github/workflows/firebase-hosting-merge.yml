@@ -1,4 +1,4 @@
-name: Deploy Firebase Hosting
+name: Deploy to Firebase Hosting
 
 on:
   push:
@@ -12,12 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          node-version: 20
-
-      - run: npm install -g firebase-tools
-
-      - run: firebase deploy --only hosting --project thicuoiki-b30e1
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_THICUOIKI_B30E1 }}
+          channelId: live
+          projectId: thicuoiki-b30e1
